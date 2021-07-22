@@ -315,8 +315,18 @@
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
     },
+    sockets: {
+      connect: function () {
+          console.log('socket connected')
+      },
+      customEmit: function (data) {
+          console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+      }
+    },
     mounted(){
       this.focusInput();
+      this.$socket.emit('emit_method', "ds")
+
     },
     watch: {
       model (val, prev) {
