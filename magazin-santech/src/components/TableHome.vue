@@ -182,6 +182,11 @@
                             label="Protein (g)"
                     ></v-text-field>
                   </v-col>
+
+                  <div id="SKUprint" @click="print">
+                    <barcode :value="sku" >Show this if the rendering fails.</barcode>
+                  </div>
+
                 </v-row>
               </v-container>
             </v-card-text>
@@ -245,8 +250,11 @@
 </template>
 
 <script>
+  import VueBarcode from 'vue-barcode';
   export default {
-
+    components: {
+      'barcode': VueBarcode
+    },
     data: () => ({
       sku:null,
       activator: null,
@@ -360,12 +368,17 @@
     },
 
     methods: {
+      print(){
+        this.$htmlToPaper('SKUprint');
+        console.log("print")
+      },
       focusInput() {
         this.$refs.sku.focus();
       },
       SKUSend(){
+
         console.log("Sku Send->",this.sku);
-        this.sku = '';
+        //
         this.dialog = true;
       },
       SKU(){
