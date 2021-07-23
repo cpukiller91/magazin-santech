@@ -183,8 +183,9 @@
                     ></v-text-field>
                   </v-col>
 
-                  <div id="SKUprint" @click="print">
-                    <barcode :value="sku" >Show this if the rendering fails.</barcode>
+                  <div id="SKUprint" @click="print" >
+
+                    <barcode :value="sku">Show this if the rendering fails.</barcode>
                   </div>
 
                 </v-row>
