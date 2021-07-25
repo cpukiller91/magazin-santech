@@ -12,7 +12,9 @@
 module.exports = () => {
   var io = require('socket.io')(strapi.server, {
     cors: {
-      origin: "http://localhost:4000",
+      //origin: "*:*",
+      origin: "http://localhost:8080",
+      withCredentials: true,
       methods: ["GET", "POST"],
      // allowedHeaders: ["my-custom-header"],
       transports: ['websocket', 'polling'],
@@ -20,22 +22,30 @@ module.exports = () => {
     },allowEIO3: true
   });
 
+
+
   io.sockets.on('connection', function(client){
     console.log('server connect');
+    client.emit('request', "dsdsdsdd");
 
-    client.on('subscribe', function(room) {
-      console.log('joining room', room);
-      client.join(room);
-    })
+    // client.on('subscribe', function(room) {
+    //   console.log('joining room', room);
+    //   client.join(room);
+    // })
 
-    client.on('unsubscribe', function(room) {
-      console.log('leaving room', room);
-      client.leave(room);
-    })
-
-    client.on('send', function(data) {
-      console.log('sending message');
-      io.sockets.in(data.room).emit('message', data);
+    client.on('test', (data) => {
+      console.log("From Client",data)
+      //this.msg = data.message;
     });
+    //
+    // client.on('unsubscribe', function(room) {
+    //   console.log('leaving room', room);
+    //   client.leave(room);
+    // })
+    //
+    // client.on('send', function(data) {
+    //   console.log('sending message');
+    //   io.sockets.in(data.room).emit('message', data);
+    // });
   });
 };

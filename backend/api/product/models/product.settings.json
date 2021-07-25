@@ -18,6 +18,9 @@
     "categories": {
       "collection": "category",
       "via": "product"
+    },
+    "title": {
+      "type": "string"
     }
   }
 }

@@ -13,6 +13,7 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "print-js": "^1.6.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-barcode": "^1.3.0",

@@ -135,23 +135,24 @@
                   <v-col
                           cols="12"
                           sm="6"
-                          md="4"
+                          md="12"
                   >
                     <v-text-field
-                            v-model="editedItem.name"
-                            label="Dessert name"
+                            v-model="title"
+                            label="Назва Товару"
                     ></v-text-field>
                   </v-col>
                   <v-col
                           cols="12"
                           sm="6"
-                          md="4"
+                          md="5"
                   >
                     <v-text-field
-                            v-model="editedItem.calories"
-                            label="Calories"
+                            v-model="sku"
+                            label="Sku"
                     ></v-text-field>
                   </v-col>
+
                   <v-col
                           cols="12"
                           sm="6"
@@ -184,8 +185,7 @@
                   </v-col>
 
                   <div id="SKUprint" @click="print" >
-
-                    <barcode :value="sku">Show this if the rendering fails.</barcode>
+                      <barcode :value="sku">Show this if the rendering fails.</barcode>
                   </div>
 
                 </v-row>
@@ -199,14 +199,14 @@
                       text
                       @click="close"
               >
-                Cancel
+                Закрити
               </v-btn>
               <v-btn
                       color="blue darken-1"
                       text
                       @click="save"
               >
-                Save
+                Зберегти
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -251,12 +251,14 @@
 </template>
 
 <script>
+  import * as Printjs from "print-js";
   import VueBarcode from 'vue-barcode';
   export default {
     components: {
       'barcode': VueBarcode
     },
     data: () => ({
+      title:null,
       sku:null,
       activator: null,
       attach: null,
@@ -295,11 +297,11 @@
           sortable: false,
           value: 'sku',
         },
-        // { text: 'Calories', value: 'calories' },
-        // { text: 'Fat (g)', value: 'fat' },
+        { text: 'Назва Товару', value: 'title' },
+        { text: 'Категорія', value: 'categories' },
         // { text: 'Carbs (g)', value: 'carbs' },
         // { text: 'Protein (g)', value: 'protein' },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'Дії', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedIndex: -1,
@@ -321,20 +323,28 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'Новий товар' : 'Відреагувати товар'
       },
     },
     sockets: {
       connect: function () {
-          console.log('socket connected')
+        console.log('socket connected');
+
+        this.sockets.subscribe('request', (data) => {
+          console.log(data)
+          //this.msg = data.message;
+        });
+
       },
       customEmit: function (data) {
-          console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+        //data.emit("test","dsdssd")
+        //io.emit("customEmit", "sdsdds")
+        console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
       }
     },
     mounted(){
       this.focusInput();
-      this.$socket.emit('emit_method', "ds")
+      this.$socket.emit('test', "dsds")
 
     },
     watch: {
@@ -370,7 +380,11 @@
 
     methods: {
       print(){
-        this.$htmlToPaper('SKUprint');
+        printJS({
+          printable: "SKUprint",
+          type: "HTML"
+        });
+        //this.$htmlToPaper('SKUprint');
         console.log("print")
       },
       focusInput() {
@@ -389,8 +403,9 @@
       initialize () {
         this.desserts = [
           {
-            sku: 'Frozen Yogurt',
-
+            sku: 212121221,
+            title:"Frozen Yogurt",
+            categories:"Category1"
           }
 
         ]
