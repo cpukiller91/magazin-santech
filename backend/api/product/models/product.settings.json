@@ -16,11 +16,14 @@
       "type": "biginteger"
     },
     "categories": {
-      "collection": "category",
-      "via": "product"
+      "via": "product",
+      "collection": "category"
     },
     "title": {
       "type": "string"
+    },
+    "price": {
+      "type": "integer"
     }
   }
 }

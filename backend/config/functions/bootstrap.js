@@ -25,27 +25,29 @@ module.exports = () => {
 
 
   io.sockets.on('connection', function(client){
-    console.log('server connect');
-    client.emit('request', "dsdsdsdd");
 
-    // client.on('subscribe', function(room) {
-    //   console.log('joining room', room);
-    //   client.join(room);
-    // })
+   var category =  strapi.query('category').find();
+
+    category.then((categoryData) => {
+      client.emit('categories', categoryData);
+
+    });
+
+    var product =  strapi.query('product').find();
+
+    product.then((productData) => {
+      client.emit('product', productData);
+      //console.log(value);
+      // expected output: "foo"
+    });
+
+    console.log('server connect');
+
 
     client.on('test', (data) => {
       console.log("From Client",data)
       //this.msg = data.message;
     });
-    //
-    // client.on('unsubscribe', function(room) {
-    //   console.log('leaving room', room);
-    //   client.leave(room);
-    // })
-    //
-    // client.on('send', function(data) {
-    //   console.log('sending message');
-    //   io.sockets.in(data.room).emit('message', data);
-    // });
+
   });
 };

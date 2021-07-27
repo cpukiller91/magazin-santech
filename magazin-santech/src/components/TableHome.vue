@@ -110,7 +110,7 @@
 
         <v-dialog
                 v-model="dialog"
-                max-width="500px"
+                max-width="700px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -138,7 +138,7 @@
                           md="12"
                   >
                     <v-text-field
-                            v-model="title"
+                            v-model="editedItem.title"
                             label="Назва Товару"
                     ></v-text-field>
                   </v-col>
@@ -148,7 +148,7 @@
                           md="5"
                   >
                     <v-text-field
-                            v-model="sku"
+                            v-model="editedItem.sku"
                             label="Sku"
                     ></v-text-field>
                   </v-col>
@@ -156,36 +156,17 @@
                   <v-col
                           cols="12"
                           sm="6"
-                          md="4"
+                          md="5"
                   >
                     <v-text-field
-                            v-model="editedItem.fat"
-                            label="Fat (g)"
+                            v-model="editedItem.price"
+                            label="Ціна"
                     ></v-text-field>
                   </v-col>
-                  <v-col
-                          cols="12"
-                          sm="6"
-                          md="4"
-                  >
-                    <v-text-field
-                            v-model="editedItem.carbs"
-                            label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                          cols="12"
-                          sm="6"
-                          md="4"
-                  >
-                    <v-text-field
-                            v-model="editedItem.protein"
-                            label="Protein (g)"
-                    ></v-text-field>
-                  </v-col>
+                  <v-spacer></v-spacer>
 
-                  <div id="SKUprint" @click="print" >
-                      <barcode :value="sku">Show this if the rendering fails.</barcode>
+                  <div id="SKUprint" @click="print" v-if="editedItem.sku">
+                      <barcode :value="editedItem.sku">Show this if the rendering fails.</barcode>
                   </div>
 
                 </v-row>
@@ -211,7 +192,8 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialogDelete" max-width="500px">
+
+        <v-dialog v-model="dialogDelete" max-width="700px">
           <v-card>
             <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
             <v-card-actions>
@@ -266,24 +248,11 @@
       editing: null,
       editingIndex: -1,
       items: [
-        { header: 'Select an option or create one' },
-        {
-          text: 'Foo',
-          color: 'blue',
-        },
-        {
-          text: 'Bar',
-          color: 'red',
-        },
+        { header: 'Select an option or create one' }
       ],
       nonce: 1,
       menu: false,
-      model: [
-        {
-          text: 'Foo',
-          color: 'blue',
-        },
-      ],
+      model: [],
       x: 0,
       search: null,
       y: 0,
@@ -330,8 +299,25 @@
       connect: function () {
         console.log('socket connected');
 
-        this.sockets.subscribe('request', (data) => {
-          console.log(data)
+        this.sockets.subscribe('product', (productData) => {
+
+          // productData.forEach((element) => {
+          //   console.log(element)
+          //
+          // })
+          this.desserts = productData;
+          console.log(productData)
+          //this.msg = data.message;
+        });
+
+        this.sockets.subscribe('categories', (categoriesData) => {
+
+          categoriesData.forEach((element) => {
+            console.log("->",element)
+            this.items.push({text:element.title,color: element.color});
+          })
+          // this.categories = categoriesData;
+          console.log("categoriesData",this.items)
           //this.msg = data.message;
         });
 
@@ -393,6 +379,7 @@
       SKUSend(){
 
         console.log("Sku Send->",this.sku);
+        this.editedItem.sku = this.sku;
         //
         this.dialog = true;
       },
@@ -401,14 +388,14 @@
 
       },
       initialize () {
-        this.desserts = [
-          {
-            sku: 212121221,
-            title:"Frozen Yogurt",
-            categories:"Category1"
-          }
-
-        ]
+        // this.desserts = [
+        //   {
+        //     sku: 212121221,
+        //     title:"Frozen Yogurt",
+        //     categories:"Category1"
+        //   }
+        //
+        // ]
       },
       edit (index, item) {
         if (!this.editing) {
@@ -466,9 +453,11 @@
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+          console.log("Edit",this.editedItem)
+          //Object.assign(this.desserts[this.editedIndex], this.editedItem)
         } else {
-          this.desserts.push(this.editedItem)
+          console.log("New")
+          //this.desserts.push(this.editedItem)
         }
         this.close()
       },
