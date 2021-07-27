@@ -314,7 +314,7 @@
 
           categoriesData.forEach((element) => {
             console.log("->",element)
-            this.items.push({text:element.title,color: element.color});
+            this.items.push({id:element.id,text:element.title,color: element.color});
           })
           // this.categories = categoriesData;
           console.log("categoriesData",this.items)
@@ -343,7 +343,19 @@
               text: v,
               color: this.colors[this.nonce - 1],
             }
+            this.$http.post('/categories/', {
 
+              title: v.text,
+              color: this.colors[this.nonce - 1]
+
+            })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+            console.log("parent add")
             this.items.push(v)
 
             this.nonce++
@@ -398,10 +410,25 @@
         // ]
       },
       edit (index, item) {
+
         if (!this.editing) {
+
+
           this.editing = item
           this.editingIndex = index
         } else {
+          console.log("edit",item)
+
+          this.$http.put('/categories/'+item.id, {
+            title: item.text
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
           this.editing = null
           this.editingIndex = -1
         }
