@@ -268,7 +268,7 @@
         },
         { text: 'Назва Товару', value: 'title' },
         { text: 'Категорія', value: 'categories' },
-        // { text: 'Carbs (g)', value: 'carbs' },
+        { text: 'Ціна', value: 'price' },
         // { text: 'Protein (g)', value: 'protein' },
         { text: 'Дії', value: 'actions', sortable: false },
       ],
@@ -452,11 +452,35 @@
       },
 
       save () {
+
         if (this.editedIndex > -1) {
+          this.$http.put('/products/'+this.editedItem.id, {
+            sku: this.editedItem.sku,
+            title: this.editedItem.title,
+            price: this.editedItem.price
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
           console.log("Edit",this.editedItem)
+
           //Object.assign(this.desserts[this.editedIndex], this.editedItem)
         } else {
           console.log("New")
+          this.$http.post('/products', {
+            sku: this.editedItem.sku,
+            title: this.editedItem.title,
+            price: this.editedItem.price
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
           //this.desserts.push(this.editedItem)
         }
         this.close()

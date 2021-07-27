@@ -6,6 +6,10 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import VueSocketIO from 'vue-socket.io'
 import VueHtmlToPaper from 'vue-html-to-paper';
+import Axios from 'axios'
+Axios.defaults.baseURL = 'http://localhost:4000/';
+
+Vue.prototype.$http = Axios;
 
 const options = {
   name: '_blank',

@@ -10,6 +10,7 @@
  * See more details here: https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#bootstrap
  */
 module.exports = () => {
+
   var io = require('socket.io')(strapi.server, {
     cors: {
       //origin: "*:*",
@@ -24,30 +25,36 @@ module.exports = () => {
 
 
 
-  io.sockets.on('connection', function(client){
+    io.sockets.on('connection', function(client){
 
-   var category =  strapi.query('category').find();
+      var category =  strapi.query('category').find();
 
-    category.then((categoryData) => {
-      client.emit('categories', categoryData);
+      category.then((categoryData) => {
+        client.emit('categories', categoryData);
+
+      });
+
+      var product =  strapi.query('product').find();
+
+      product.then((productData) => {
+        client.emit('product', productData);
+        //console.log(value);
+        // expected output: "foo"
+      });
+
+      console.log('server connect');
+
+
+      client.on('test', (data) => {
+        console.log("From Client",data)
+        //this.msg = data.message;
+      });
+
+      setInterval(function() {
+
+      }, 10000);
 
     });
 
-    var product =  strapi.query('product').find();
 
-    product.then((productData) => {
-      client.emit('product', productData);
-      //console.log(value);
-      // expected output: "foo"
-    });
-
-    console.log('server connect');
-
-
-    client.on('test', (data) => {
-      console.log("From Client",data)
-      //this.msg = data.message;
-    });
-
-  });
 };
