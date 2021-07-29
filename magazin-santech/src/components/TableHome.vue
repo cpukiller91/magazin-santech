@@ -240,6 +240,7 @@
       'barcode': VueBarcode
     },
     data: () => ({
+      delID:null,
       title:null,
       sku:null,
       activator: null,
@@ -452,12 +453,20 @@
       },
 
       deleteItem (item) {
+        this.delID = item.id;
         this.editedIndex = this.desserts.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
+        this.$http.delete('/products/'+this.delID)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
         this.desserts.splice(this.editedIndex, 1)
         this.closeDelete()
       },
