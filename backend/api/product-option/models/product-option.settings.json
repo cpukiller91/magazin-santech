@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_options",
+  "info": {
+    "name": "Product Option",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "value": {
+      "type": "string"
+    },
+    "properpty": {
+      "model": "properpties",
+      "via": "product_option"
+    },
+    "product": {
+      "via": "product_options",
+      "model": "product"
+    },
+    "ref_id": {
+      "type": "string"
+    }
+  }
+}

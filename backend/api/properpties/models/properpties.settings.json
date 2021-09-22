@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "properpties",
+  "info": {
+    "name": "Properpties",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "ref_id": {
+      "type": "string"
+    },
+    "product_option": {
+      "via": "properpty",
+      "model": "product-option"
+    }
+  }
+}

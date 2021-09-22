@@ -12,14 +12,26 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
+    "name": {
       "type": "string"
     },
-    "product": {
-      "via": "categories",
-      "model": "product"
+    "products": {
+      "via": "category",
+      "collection": "product"
     },
     "color": {
+      "type": "string"
+    },
+    "in_stock": {
+      "type": "boolean"
+    },
+    "parent_ref": {
+      "type": "string"
+    },
+    "image_src": {
+      "type": "string"
+    },
+    "ref_id": {
       "type": "string"
     }
   }

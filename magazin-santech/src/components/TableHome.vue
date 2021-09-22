@@ -130,6 +130,7 @@
             </v-card-title>
 
             <v-card-text>
+
               <v-container>
                 <v-row>
                   <v-col
@@ -161,6 +162,16 @@
                     <v-text-field
                             v-model="editedItem.price"
                             label="Ціна"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                          cols="12"
+                          sm="6"
+                          md="5"
+                  >
+                    <v-text-field
+                            v-model="editedItem.count"
+                            label="Кількість"
                     ></v-text-field>
                   </v-col>
                   <v-spacer></v-spacer>
@@ -195,11 +206,11 @@
 
         <v-dialog v-model="dialogDelete" max-width="700px">
           <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title class="text-h5">Ви точно хочете видалити товар?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="blue darken-1" text @click="closeDelete">Ні</v-btn>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm">Так</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -270,24 +281,24 @@
         { text: 'Назва Товару', value: 'title' },
         { text: 'Категорія', value: 'categories' },
         { text: 'Ціна', value: 'price' },
-        // { text: 'Protein (g)', value: 'protein' },
+        { text: 'Кількість', value: 'count' },
         { text: 'Дії', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        sku: 0,
+        title: "",
+        categories: 0,
+        price: 0,
+        count: 0,
       },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        sku: 0,
+        title: "",
+        categories: 0,
+        price: 0,
+        count: 0,
       },
     }),
 
@@ -379,18 +390,26 @@
 
     methods: {
       print(){
-        printJS({
-          printable: "SKUprint",
-          type: "HTML"
-        });
-        //this.$htmlToPaper('SKUprint');
+        // printJS({
+        //   printable: "SKUprint",
+        //   type: "HTML"
+        // });
+        this.$htmlToPaper('SKUprint');
         console.log("print")
       },
       focusInput() {
         this.$refs.sku.focus();
       },
       SKUSend(){
-
+        console.log("INDEX",this.editedIndex)
+        this.$http.get('/products/?sku='+this.sku)
+        .then( (response) => {
+          console.log("find product",response,this.editedItem);
+          this.editing = true;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
         console.log("Sku Send->",this.sku);
         this.editedItem.sku = this.sku;
         //
@@ -411,9 +430,9 @@
         // ]
       },
       edit (index, item) {
+//console.log("--->",this.editing)
 
         if (!this.editing) {
-
 
           this.editing = item
           this.editingIndex = index
@@ -447,6 +466,7 @@
                 .indexOf(query.toString().toLowerCase()) > -1
       },
       editItem (item) {
+        //console.log("INDEX",this.editedIndex)
         this.editedIndex = this.desserts.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
@@ -493,7 +513,8 @@
           this.$http.put('/products/'+this.editedItem.id, {
             sku: this.editedItem.sku,
             title: this.editedItem.title,
-            price: this.editedItem.price
+            price: this.editedItem.price,
+            count: this.editedItem.count
           })
           .then(function (response) {
             console.log(response);
@@ -509,7 +530,8 @@
           this.$http.post('/products', {
             sku: this.editedItem.sku,
             title: this.editedItem.title,
-            price: this.editedItem.price
+            price: this.editedItem.price,
+            count: this.editedItem.count
           })
           .then(function (response) {
             console.log(response);

@@ -1,0 +1,8 @@
+@media print {
+    @page {
+        size: portrait;
+    }
+    div{
+        border: 1px red solid;
+    }
+}

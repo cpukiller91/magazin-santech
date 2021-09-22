@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/manufactures",
+      "handler": "manufacture.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/manufactures/count",
+      "handler": "manufacture.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/manufactures/:id",
+      "handler": "manufacture.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/manufactures",
+      "handler": "manufacture.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/manufactures/:id",
+      "handler": "manufacture.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/manufactures/:id",
+      "handler": "manufacture.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

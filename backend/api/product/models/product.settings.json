@@ -12,18 +12,42 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "sku": {
-      "type": "biginteger"
-    },
-    "categories": {
-      "via": "product",
-      "collection": "category"
-    },
-    "title": {
+    "name": {
       "type": "string"
     },
-    "price": {
-      "type": "integer"
+    "orders": {
+      "via": "product",
+      "collection": "order"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "vendorCode": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "category_ref": {
+      "type": "string"
+    },
+    "brand_ref": {
+      "type": "string"
+    },
+    "category": {
+      "via": "products",
+      "model": "category"
+    },
+    "brand": {
+      "via": "products",
+      "model": "brands"
+    },
+    "product_options": {
+      "via": "product",
+      "collection": "product-option"
+    },
+    "image_prew": {
+      "type": "string"
     }
   }
 }
