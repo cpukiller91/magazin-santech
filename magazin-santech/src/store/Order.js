@@ -18,9 +18,15 @@ export default ({
     actions: {
         GET_AXIOS_ORDERS: async (context,data) => {
             let LIST = []
+            //console.log("-------1111------",data)
             let GET_AXIOS_ORDERS =  await Axios.get('/orders',{
                 params:{
-                    "_sort":"id:DESC"
+                    "timestamp_gt":typeof data != 'undefined' ? data.Startdate ? data.Startdate: null :null,
+                    'timestamp_lt':typeof data !='undefined' ? data.endDate? data.endDate:null :null,
+                    'archive':typeof data !='undefined' ? data.archive? data.archive:false :false,
+                    //archive: this.Arhive,
+                    "_sort":"id:DESC",
+                    "_limit":30
                 },
 
             });

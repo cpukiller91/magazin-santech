@@ -12,6 +12,8 @@ import ProductTable from './components/ProductTable';
 import OrderPanel from './components/Order/OrderPanel';
 import OrderTable from './components/Order/OrderTable';
 import VueBarcode from 'vue-barcode';
+import StatusTable from "./components/StatusTable";
+
 
 const moment = require('moment')
 require('moment/locale/ru')
@@ -19,6 +21,7 @@ require('moment/locale/ru')
 Vue.use(require('vue-moment'), {
   moment
 })
+Vue.component('status-table', StatusTable)
 Vue.component('barcode', VueBarcode)
 Vue.component('order-panel', OrderPanel)
 Vue.component('order-modal', OrderModal)

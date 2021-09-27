@@ -196,7 +196,7 @@
                 <order-panel></order-panel>
             </v-tab-item>
             <v-tab-item :value="'tab-3'">
-               1
+                <status-table></status-table>
             </v-tab-item>
         </v-tabs-items>
     </v-card>

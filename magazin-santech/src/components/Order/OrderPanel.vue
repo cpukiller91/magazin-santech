@@ -16,18 +16,19 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-text-field
-                                        v-model="dateFormatted"
+                                        v-model="Startdate"
                                         label="Знайти від"
                                         hint="MM/DD/YYYY format"
                                         persistent-hint
+
                                         prepend-icon="mdi-calendar"
                                         v-bind="attrs"
-                                        @blur="date = parseDate(dateFormatted)"
+
                                         v-on="on"
                                 ></v-text-field>
                             </template>
                             <v-date-picker
-                                    v-model="date"
+                                    v-model="Startdate"
                                     locale="ru-ru"
                                     no-title
                                     @input="menu1 = false"
@@ -48,7 +49,7 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-text-field
-                                        v-model="computedDateFormatted"
+                                        v-model="endDate"
                                         label="до"
                                         hint="MM/DD/YYYY format"
                                         persistent-hint
@@ -59,7 +60,7 @@
                                 ></v-text-field>
                             </template>
                             <v-date-picker
-                                    v-model="date"
+                                    v-model="endDate"
                                     no-title
                                     locale="ru-ru"
                                     @input="menu2 = false"
@@ -77,6 +78,29 @@
                         >
                             <v-icon dark>
                                 mdi-plus
+                            </v-icon>
+                        </v-btn>
+                        <v-btn
+                                class="mx-2"
+                                fab
+                                dark
+                                color="indigo"
+                                v-if="Arhive==false"
+                                @click="getArhive()"
+                        >
+                            <v-icon dark>
+                                fa-archive
+                            </v-icon>
+                        </v-btn>
+                        <v-btn
+                                class="mx-2"
+                                fab
+                                dark
+                                v-if="Arhive==true"
+                                @click="getArhive()"
+                        >
+                            <v-icon dark>
+                                fa-archive
                             </v-icon>
                         </v-btn>
                     </v-col>
@@ -123,6 +147,9 @@
     export default {
 
         data: vm => ({
+            Arhive:false,
+            endDate:'',
+            Startdate:'',
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
             dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
             menu1: false,
@@ -142,6 +169,30 @@
         },
 
         watch: {
+            Arhive(){
+                this.$store.dispatch("GET_AXIOS_ORDERS",{
+                    endDate:this.endDate,
+                    Startdate:this.Startdate,
+                    archive: this.Arhive
+                })
+            },
+            Startdate(nv){
+                this.$store.dispatch("GET_AXIOS_ORDERS",{
+                    endDate:this.endDate,
+                    Startdate:this.Startdate,
+                    archive: this.Arhive
+                })
+                console.log(nv)
+            },
+            endDate(nv){
+                this.$store.dispatch("GET_AXIOS_ORDERS",
+                    {
+                        endDate:this.endDate,
+                        Startdate:this.Startdate,
+                        archive: this.Arhive
+                    })
+                console.log(nv)
+            },
             GET_AXIOS_ORDERS(nv){
                 console.log("GET_AXIOS_ORDERS",nv)
             },
@@ -151,6 +202,11 @@
         },
 
         methods: {
+            getArhive(){
+
+                this.Arhive == false ?this.Arhive = true:this.Arhive = false;
+                console.log(this.Arhive)
+            },
             saveOrder(){
                 this.$store.dispatch('POST_AXIOS_ORDER',{timestamp:new Date()})
             },
