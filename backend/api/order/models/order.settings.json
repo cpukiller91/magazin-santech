@@ -12,20 +12,22 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "titie": {
-      "type": "string"
-    },
-    "product": {
-      "via": "orders",
-      "model": "product"
-    },
     "timestamp": {
       "type": "datetime",
       "required": true,
       "unique": true
     },
     "in_stock": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
+    },
+    "order_lists": {
+      "via": "order",
+      "collection": "order-list"
+    },
+    "archive": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

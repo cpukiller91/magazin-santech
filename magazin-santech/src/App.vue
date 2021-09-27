@@ -6,7 +6,7 @@
               app
       >
         <v-container fluid>
-        <order-modal></order-modal>
+
         </v-container>
         <!--  -->
       </v-navigation-drawer>

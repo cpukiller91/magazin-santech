@@ -9,9 +9,21 @@ import VueHtmlToPaper from 'vue-html-to-paper';
 import Axios from 'axios'
 import OrderModal from './components/OrderModal';
 import ProductTable from './components/ProductTable';
+import OrderPanel from './components/Order/OrderPanel';
+import OrderTable from './components/Order/OrderTable';
+import VueBarcode from 'vue-barcode';
 
+const moment = require('moment')
+require('moment/locale/ru')
+
+Vue.use(require('vue-moment'), {
+  moment
+})
+Vue.component('barcode', VueBarcode)
+Vue.component('order-panel', OrderPanel)
 Vue.component('order-modal', OrderModal)
 Vue.component('product-table', ProductTable)
+Vue.component('order-table', OrderTable)
 
 Axios.defaults.baseURL = 'http://localhost:4000/';
 

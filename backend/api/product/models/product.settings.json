@@ -15,10 +15,6 @@
     "name": {
       "type": "string"
     },
-    "orders": {
-      "via": "product",
-      "collection": "order"
-    },
     "sku": {
       "type": "string"
     },

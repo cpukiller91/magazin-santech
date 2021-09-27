@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_lists",
+  "info": {
+    "name": "OrderList",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "order": {
+      "via": "order_lists",
+      "model": "order"
+    },
+    "price_euro": {
+      "type": "float"
+    },
+    "product": {
+      "model": "product"
+    },
+    "price_dolar": {
+      "type": "float"
+    },
+    "price_grn": {
+      "type": "float"
+    },
+    "count": {
+      "type": "integer"
+    },
+    "type_count": {
+      "type": "string"
+    }
+  }
+}

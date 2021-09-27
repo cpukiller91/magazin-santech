@@ -4,7 +4,8 @@ import Axios from 'axios'
 export default ({
     state: {
         SKU_PRODUCT:[],
-        PRODUCTS:[]
+        PRODUCTS:[],
+        PRODUCT:[]
     },
     mutations: {
         SKU_PRODUCT(state, payload){
@@ -12,6 +13,9 @@ export default ({
         },
         PRODUCTS(state, payload){
             state.PRODUCTS = payload
+        },
+        PRODUCT(state, payload){
+            state.PRODUCT = payload
         },
     },
     actions: {
@@ -32,6 +36,17 @@ export default ({
                 context.commit("SKU_PRODUCT",GET_SKU_PRODUCT.data[0])
             }
 
+        },
+
+        GET_PRODUCT_ORDER_LIST: async (context,data) => {
+            let GET_PRODUCT_ORDER_LIST =  await Axios.get('/products',data);
+
+            if(GET_PRODUCT_ORDER_LIST.data.length > 0){
+                //console.log("GET_PRODUCT_ORDER_LIST_ACTION",GET_PRODUCT_ORDER_LIST.data[0])
+                context.commit("PRODUCT",GET_PRODUCT_ORDER_LIST.data[0])
+                //return true
+            }
+            //return false
         },
 
         ROOT_CATEGORY(state, getters, rootState, rootGetters) {
@@ -307,6 +322,9 @@ export default ({
         },
         PRODUCTS: state => {
             return state.PRODUCTS;
+        },
+        PRODUCT: state => {
+            return state.PRODUCT;
         }
     },
     modules: {
